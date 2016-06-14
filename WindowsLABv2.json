@@ -159,7 +159,7 @@
           } ]
         },
         "Path": "/",
-        "Policies" : [
+        "ManagedPolicyArns" : [
           "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM",
           "arn:aws:iam::aws:policy/AmazonS3FullAccess" ]
       }
@@ -179,7 +179,7 @@
             } ]
         },
         "Path": "/",
-        "Policies" : [ "arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole" ]
+        "ManagedPolicyArns" : [ "arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole" ]
       }
     },
 
