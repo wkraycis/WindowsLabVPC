@@ -143,7 +143,53 @@
 	        	"Tags" : [ { "Key" : "Name", "Value" : "web_server" }, { "Key" : "Environment", "Value" : "LAB" }, { "Key" : "VpcID", "Value" : { "Ref" : "VPC" } } ],
 	        	"VpcId" : { "Ref" : "VPC" }
 	      	}
-		}
+		},
+
+    "WindowsDemoRole" : {
+      "Type" : "AWS::IAM::Role",
+      "Properties" : {
+        "AssumeRolePolicyDocument": {
+          "Version" : "2012-10-17",
+          "Statement": [ {
+            "Effect": "Allow",
+            "Principal": {
+              "Service": [ "ec2.amazonaws.com" ]
+            },
+            "Action": [ "sts:AssumeRole" ]
+          } ]
+        },
+        "Path": "/",
+        "Policies" : [
+          "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM",
+          "arn:aws:iam::aws:policy/AmazonS3FullAccess" ]
+      }
+    },
+
+    "CodeDeployRole" : {
+      "Type" : "AWS::IAM::Role",
+      "Properties" : {
+        "AssumeRolePolicyDocument": {
+            "Version" : "2012-10-17",
+            "Statement": [ {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [ "codedeploy.amazonaws.com" ]
+              },
+              "Action": [ "sts:AssumeRole" ]
+            } ]
+        },
+        "Path": "/",
+        "Policies" : [ "arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole" ]
+      }
+    },
+
+    "WindowsDemoInstanceProfile": {
+      "Type": "AWS::IAM::InstanceProfile",
+      "Properties": {
+        "Path": "/",
+        "Roles": [ { "Ref": "WindowsDemoRole" } ]
+       }
+    }
 
 	},
 
