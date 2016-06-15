@@ -28,6 +28,11 @@
     	"CodeDeployServiceRoleArn": {
     		"Description": "The ARN for the CodeDeploy service IAM role",
     		"Type": "String"
+    	},
+
+    	"IamInstanceRole": {
+    		"Description": "The ARN for the IAM Instance Profile",
+    		"Type": "String"
     	}
     },
 
@@ -85,7 +90,7 @@
       			"AssociatePublicIpAddress" : true,
       			"ImageId": { "Ref" : "LaunchImage" },
       			"InstanceType": "t2.small",
-      			"IamInstanceProfile": "arn:aws:iam::385000587821:role/WindowsLab-WindowsDemoRole-Z5GVOWF9WKDT",
+      			"IamInstanceProfile": { "Ref" : "IamInstanceRole" },
       			"SecurityGroups": [ { "Ref" : "WebAppSecurityGroup" } ]
       		}
         },
