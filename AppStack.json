@@ -7,7 +7,7 @@
     "Parameters" : {
     	"AppSubnets": {
     		"Description": "Subnets in which the web application instances will run",
-    		"Type": "List<AWS::EC2::Subnet::Id>"
+    		"Type": "String"
     	},
 
     	"LaunchImage": {
