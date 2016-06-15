@@ -12,7 +12,7 @@
 
     	"LaunchImage": {
     		"Description": "The AMI id for the launch config for the autoscaling group",
-    		"Type": "AWS::EC2::Image::Id"
+    		"Type": "String"
     	},
 
     	"SourceIP": {
@@ -22,7 +22,7 @@
 
     	"VPC": {
     		"Description": "The VPC ID in which this stack should be run",
-    		"Type": "AWS::EC2::VPC::Id"
+    		"Type": "String"
     	}
     },
 
