@@ -1,0 +1,117 @@
+{
+
+    "AWSTemplateFormatVersion" : "2010-09-09",
+
+    "Description" : "Simple Web Application Stack",
+
+    "Parameters" : {
+    	"AppSubnets": {
+    		"Description": "Subnets in which the web application instances will run",
+    		"Type": "List<AWS::EC2::Subnet::Id>"
+    	},
+
+    	"LaunchImage": {
+    		"Description": "The AMI id for the launch config for the autoscaling group",
+    		"Type": "AWS::EC2::Image::Id"
+    	},
+
+    	"SourceIP": {
+    		"Description": "Enter your laptop's public IP (google \"what is my ip\") or ask the Instructor / Presenter",
+    		"Type": "String"
+    	},
+
+    	"VPC": {
+    		"Description": "The VPC ID in which this stack should be run",
+    		"Type": "AWS::EC2::VPC::Id"
+    	}
+    },
+
+    "Mappings" : {
+
+    },
+
+    "Resources" : {
+        "AutoScaleGroup":{
+        	"Type" : "AWS::AutoScaling::AutoScalingGroup",
+        	"Properties" : {
+	        	"DesiredCapacity": "2",
+	        	"LaunchConfigurationName": { "Ref" : "AutoScaleLaunchConfig" },
+	        	"MaxSize": "2",
+	        	"MinSize": "2",
+	        	"Tags":[
+	        		{
+	         			"Key" : "Name",
+	         			"Value" : "App Autoscaling Instance",
+	         			"PropagateAtLaunch" : "true"
+	      			}, {
+	         			"Key" : "ENV",
+	         			"Value" : "Demo",
+	         			"PropagateAtLaunch" : "true"
+	      			} ],
+	      		"VPCZoneIdentifier": [ { "Ref" : "AppSubnets" } ]
+	      	}
+        },
+
+        "WebAppSecurityGroup": {
+			"Type" : "AWS::EC2::SecurityGroup",
+	      	"Properties" : {
+	        	"GroupDescription" : "Enable RDP and HTTP for Windows EC2 Servers",
+	        	"SecurityGroupIngress" : [
+	        		{
+	          			"IpProtocol" : "tcp",
+	          			"FromPort" : "3389",
+	          			"ToPort" : "3389",
+	          			"CidrIp" : { "Fn::Join" : [ "/", [ { "Ref" : "SourceIP" }, "32" ] ] }
+	        		},
+	        		{
+			  			"IpProtocol" : "tcp",
+	          			"FromPort" : "80",
+	          			"ToPort" : "80",
+	          			"CidrIp" : "0.0.0.0/0"
+	        		} ],
+	        	"Tags" : [ { "Key" : "Name", "Value" : "web_server" }, { "Key" : "Environment", "Value" : "LAB" }, { "Key" : "VpcID", "Value" : { "Ref" : "VPC" } } ],
+	        	"VpcId" : { "Ref" : "VPC" }
+	      	}
+        },
+
+        "AutoScaleLaunchConfig": {
+        	"Type" : "AWS::AutoScaling::LaunchConfiguration",
+   			"Properties" : {
+      			"AssociatePublicIpAddress" : true,
+      			"ImageId": { "Ref" : "LaunchImage" },
+      			"InstanceType": "t2.small",
+      			"SecurityGroups": [ { "Ref" : "WebAppSecurityGroup" } ]
+      		}
+        },
+
+        "CodeDeployApp": {
+        	"Type" : "AWS::CodeDeploy::Application",
+  			"Properties" : {
+  				"ApplicationName": "WindowsWebApp"
+  			}
+        },
+
+        "CodeDeployAppDeploymentGroup": {
+        	"Type" : "AWS::CodeDeploy::DeploymentGroup",
+  			"Properties" : {
+  				"ApplicationName" : { "Ref" : "CodeDeployApp" },
+  				"AutoScalingGroups" : [ {"Ref" : "AutoScaleGroup" } ],
+  				"Deployment": {
+  					"Description" : "A simple windows web app demo",
+  					"IgnoreApplicationStopFailures" : "true",
+  					"Revision": {
+  						"RevisionType" : "GitHub",
+  						"GitHubLocation" : {
+  							"CommitId": "c8e2e489447e6120d860752d7fb3dcfae670954d",
+  							"Repository": "kepstein/WindowsDemo"
+  						}
+  					}
+  				}
+        	}
+		}
+	},
+
+    "Outputs" : {
+
+    }
+}
