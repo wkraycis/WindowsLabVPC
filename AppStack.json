@@ -112,7 +112,7 @@
   						}
   					}
   				},
-  				"ServiceRoleArn": "arn:aws:iam::385000587821:role/WindowsLab-WindowsDemoRole-Z5GVOWF9WKDT"
+  				"ServiceRoleArn": { "Ref" : "CodeDeployServiceRoleArn" }
         	}
 		}
 	},
