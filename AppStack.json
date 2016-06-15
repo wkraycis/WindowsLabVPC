@@ -7,7 +7,7 @@
     "Parameters" : {
     	"AppSubnets": {
     		"Description": "Subnets in which the web application instances will run",
-    		"Type": "List"
+    		"Type": "String"
     	},
 
     	"LaunchImage": {
@@ -23,6 +23,11 @@
     	"VPC": {
     		"Description": "The VPC ID in which this stack should be run",
     		"Type": "AWS::EC2::VPC::Id"
+    	},
+
+    	"CodeDeployServiceRoleArn": {
+    		"Description": "The ARN for the CodeDeploy service IAM role",
+    		"Type": "String"
     	}
     },
 
@@ -106,7 +111,8 @@
   							"Repository": "kepstein/WindowsDemo"
   						}
   					}
-  				}
+  				},
+  				"ServiceRoleArn": "arn:aws:iam::385000587821:role/WindowsLab-WindowsDemoRole-Z5GVOWF9WKDT"
         	}
 		}
 	},
