@@ -107,7 +107,18 @@
   			"Properties" : {
   				"ApplicationName" : { "Ref" : "CodeDeployApp" },
   				"AutoScalingGroups" : [ {"Ref" : "AutoScaleGroup" } ],
-
+				"Deployment": {
+   					"Description" : "A simple windows web app demo",
+   					"IgnoreApplicationStopFailures" : "true",
+   					"Revision": {
+   						"RevisionType" : "GitHub",
+   						"GitHubLocation" : {
+   							"CommitId": "c8e2e489447e6120d860752d7fb3dcfae670954d",
+   							"Repository": "kepstein/WindowsDemo"
+   						}
+   					}
+   				},
+   				"DeploymentConfigName": "CodeDeployDefault.OneAtATime",
   				"ServiceRoleArn": { "Ref" : "CodeDeployServiceRoleArn" }
         	}
 		}
