@@ -5,10 +5,10 @@
     "Description" : "VPC Environments for Windows Automation Lab",
 
     "Parameters" : {
-		"SourceIP" : {
-	    	"Type" : "String",
-	    	"Description" : "Enter your laptop's public IP (google \"what is my ip\") or ask the Instructor / Presenter"
-	  	}
+		  "SourceIP" : {
+	     "Type" : "String",
+	     "Description" : "Enter your laptop's public IP (google \"what is my ip\") or ask the Instructor / Presenter"
+	    }
 
     },
 
@@ -206,12 +206,12 @@
     },
 
     "CodeDeployServiceRoleARN": {
-        "Value" : { "Fn::GetAtt" : [ "CodeDeployRole" , "ARN" ] },
+        "Value" : { "Fn::GetAtt" : [ "CodeDeployRole" , "Arn" ] },
         "Description" : "The Service Role ARN for CodeDeploy"
     },
 
     "WebServersIamInstanceProfile" : {
-        "Value": { "Fn::GetAtt" : [ "WindowsDemoInstanceProfile" , "ARN" ] },
+        "Value": { "Fn::GetAtt" : [ "WindowsDemoInstanceProfile" , "Arn" ] },
         "Description": "The IAM Profile / Role you should use when launching web application servers"
     },
 
