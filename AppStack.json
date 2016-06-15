@@ -7,12 +7,12 @@
     "Parameters" : {
     	"AppSubnets": {
     		"Description": "Subnets in which the web application instances will run",
-    		"Type": "String"
+    		"Type": "List"
     	},
 
     	"LaunchImage": {
     		"Description": "The AMI id for the launch config for the autoscaling group",
-    		"Type": "String"
+    		"Type": "AWS::EC2::Image::Id"
     	},
 
     	"SourceIP": {
@@ -22,7 +22,7 @@
 
     	"VPC": {
     		"Description": "The VPC ID in which this stack should be run",
-    		"Type": "String"
+    		"Type": "AWS::EC2::VPC::Id"
     	}
     },
 
