@@ -198,7 +198,27 @@
 		"VpcId" : {
     		"Value" : { "Ref" : "VPC" },
     		"Description" : "The VPC ID for this Stack"
-  		}
+  		},
+
+    "WebAppSubnets": {
+        "Value" : { "Fn::Join" : [ ",", [ { "Ref" : "WebServerSubnet1"}, { "Ref" : "WebServerSubnet2" } ] ] },
+        "Description" : "Subnets that the web application servers will be deployed into"
+    },
+
+    "CodeDeployServiceRoleARN": {
+        "Value" : { "Fn::GetAtt" : [ "CodeDeployRole" , "ARN" ] },
+        "Description" : "The Service Role ARN for CodeDeploy"
+    },
+
+    "WebServersIamInstanceProfile" : {
+        "Value": { "Fn::GetAtt" : [ "WindowsDemoInstanceProfile" , "ARN" ] },
+        "Description": "The IAM Profile / Role you should use when launching web application servers"
+    },
+
+    "YourSourceIP": {
+        "Value": { "Ref" : "SourceIP" },
+        "Description": "The source / public IP you entered when you ran this template"
+    }
 
 	}
 
