@@ -145,6 +145,34 @@
 	      	}
 		},
 
+    "PackerSecurityGroup" : {
+      "Type" : "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription" : "Enable RDP and WINRM for Packer",
+        "SecurityGroupIngress" : [
+              {
+                  "IpProtocol" : "tcp",
+                  "FromPort" : "3389",
+                  "ToPort" : "3389",
+                  "CidrIp" : { "Fn::Join" : [ "/", [ { "Ref" : "SourceIP" }, "32" ] ] }
+              },
+              {
+                  "IpProtocol" : "tcp",
+                  "FromPort" : "5985",
+                  "ToPort" : "5985",
+                  "CidrIp" : "0.0.0.0/0"
+              },
+              {
+                  "IpProtocol" : "tcp",
+                  "FromPort" : "5986",
+                  "ToPort" : "5986",
+                  "CidrIp" : "0.0.0.0/0"
+              }],
+            "Tags" : [ { "Key" : "Name", "Value" : "packer" }, { "Key" : "Environment", "Value" : "LAB" }, { "Key" : "VpcID", "Value" : { "Ref" : "VPC" } } ],
+            "VpcId" : { "Ref" : "VPC" }
+      }
+    },
+
     "WindowsDemoRole" : {
       "Type" : "AWS::IAM::Role",
       "Properties" : {
@@ -161,7 +189,8 @@
         "Path": "/",
         "ManagedPolicyArns" : [
           "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM",
-          "arn:aws:iam::aws:policy/AmazonS3FullAccess" ]
+          "arn:aws:iam::aws:policy/AmazonS3FullAccess",
+          "arn:aws:iam::aws:policy/AmazonEC2FullAccess" ]
       }
     },
 
@@ -218,6 +247,11 @@
     "YourSourceIP": {
         "Value": { "Ref" : "SourceIP" },
         "Description": "The source / public IP you entered when you ran this template"
+    },
+
+    "PackerSG": {
+        "Value": { "Ref" : "PackerSecurityGroup" },
+        "Description": "The security group you should assign to the packer instance"
     }
 
 	}
