@@ -35,7 +35,7 @@
   	"WebServerSubnet2" : {
     		"Type" : "AWS::EC2::Subnet",
     		"Properties" : {
-      		"AvailabilityZone" : { "Fn::Join" : [ "", [ { "Ref" : "AWS::Region" }, "c" ] ] },
+      		"AvailabilityZone" : { "Fn::Join" : [ "", [ { "Ref" : "AWS::Region" }, "b" ] ] },
       		"VpcId" : { "Ref" : "VPC" },
       		"CidrBlock" : "10.0.2.0/24",
       		"Tags" : [ { "Key" : "Name", "Value" : "app_subnet_2"}, {"Key" : "Application", "Value" : { "Ref" : "AWS::StackId"} } ]
